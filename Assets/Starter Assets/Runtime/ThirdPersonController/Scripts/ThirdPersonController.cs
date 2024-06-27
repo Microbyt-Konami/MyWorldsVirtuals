@@ -98,8 +98,10 @@ namespace StarterAssets
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
 
+        [Header("References")]
+
 #if ENABLE_INPUT_SYSTEM
-        private PlayerInput _playerInput;
+        [field: SerializeField] private PlayerInput PlayerInput;
 #endif
         private Animator _animator;
         private CharacterController _controller;
@@ -115,7 +117,7 @@ namespace StarterAssets
             get
             {
 #if ENABLE_INPUT_SYSTEM
-                return _playerInput.currentControlScheme == "KeyboardMouse";
+                return PlayerInput == null ? false : PlayerInput.currentControlScheme == "KeyboardMouse";
 #else
 				return false;
 #endif
@@ -135,12 +137,12 @@ namespace StarterAssets
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-            
+
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM
-            _playerInput = GetComponent<PlayerInput>();
+            //PlayerInput = GetComponent<PlayerInput>();
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
 #endif
